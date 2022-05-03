@@ -12,5 +12,7 @@ api.delete('/eliminarEquipo/:nombre/:idUsuario?', md_autenticacion.Auth, equipoC
 
 api.get('/verEquiposLiga/:liga/:idUsuario?', md_autenticacion.Auth, equipoControlador.verEquiposLiga);
 
+api.get('/verTablaLiga/:liga/:idUsuario?', md_autenticacion.Auth, equipoControlador.tablaLiga);
+
 
 module.exports = api;

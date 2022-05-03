@@ -10,7 +10,12 @@ function asignarEquipo(golFavor, golContra, idEquipo, idUsuario) {
     }
 
     Equipo.findOneAndUpdate({ _id: idEquipo, idUsuario: idUsuario }, { $inc: { golesFavor: golFavor, golesContra: golContra, puntos: punto, partidosJugados: 1 } }, { new: true }, (err, equipoActualizado) => {
-        console.log(equipoActualizado)
+        var diferencia = Math.abs(equipoActualizado.golesFavor-equipoActualizado.golesContra)
+
+        Equipo.findOneAndUpdate({ _id: idEquipo, idUsuario: idUsuario},{diferenciaGoles: diferencia}, {new: true}, (err, diferenciaActualizada) => {
+            console.log(diferenciaActualizada)
+        })
+       
     })
 }
 
@@ -56,7 +61,7 @@ function crearPartido(req, res) {
                 }
 
                 if (parametros.equipo1 && parametros.equipo2 && parametros.goles1 && parametros.goles2 && parametros.jornada) {
-                    if (parametros.jornada < jornadasMaximas && parametros.jornada > 0) {
+                    if (parametros.jornada <= jornadasMaximas && parametros.jornada > 0) {
                         Partido.find({ jornada: parametros.jornada }, (err, partidosEncontrados) => {
                             if (partidosEncontrados.length < partidosMaximos) {
             

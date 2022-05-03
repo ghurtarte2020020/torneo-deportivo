@@ -145,7 +145,7 @@ function verEquiposLiga(req,res){
         idUsuario = req.params.idUsuario;
     }
 
-    Liga.findOne({nombre: req.params.liga}, (err, ligaEncontrada)=>{
+    Liga.findOne({nombre: req.params.liga, idUsuario: idUsuario}, (err, ligaEncontrada)=>{
         if(!ligaEncontrada){
             return res.status(500).send({ error: "no se encontró la liga" });
         }else{
@@ -160,9 +160,41 @@ function verEquiposLiga(req,res){
 
 }
 
+function tablaLiga(req,res) {
+    var idUsuario;
+
+    if(req.params.liga==null) return res.status(500).send({error: "debe enviar el nombre de que liga quiere visualizar su tabla"})
+
+
+    if (req.user.rol == "Usuario") {
+        idUsuario = req.user.sub;
+    } else if (req.user.rol == "Admin") {
+        if (req.params.idUsuario == null) {
+            return res.status(500).send({
+                mensaje: "debe enviar el id del usuario al que quiere ver sus  equipos",
+            });
+        }
+        idUsuario = req.params.idUsuario;
+    }
+
+    Liga.findOne({nombre: req.params.liga, idUsuario: idUsuario}, (err, ligaEncontrada)=>{
+        if(!ligaEncontrada){
+            return res.status(500).send({ error: "no se encontró la liga" });
+        }else{
+            Equipo.find({idUsuario: idUsuario, idLiga: ligaEncontrada._id}, (err, equiposEncontrados)=>{
+                if(equiposEncontrados.length==0) return res.status(500).send({ mensaje: "no cuenta con equipos en esta liga" });
+                if (err) return res.status(500).send({ mensaje: "Error en la peticion" });
+
+                return res.status(200).send({tabla : equiposEncontrados})
+            }).sort({ puntos: -1})
+        }
+    })
+}
+
 module.exports = {
  crearEquipo,
  editarEquipo,
  eliminarEquipo,
- verEquiposLiga
+ verEquiposLiga,
+ tablaLiga
 }
