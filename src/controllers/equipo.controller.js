@@ -255,14 +255,14 @@ function generarPdf(nombreLiga, equipos) {
       margin: [0, 0, 0, 20]
     }]
 
-    var titulos = new Array( 'Equipo', 'puntos', 'partidos jugados', 'goles a favor', 'goles en contra', 'diferencia de goles' );
+    var titulos = new Array('Posición', 'Equipo', 'Puntos', 'Partidos jugados', 'Goles a favor', 'Goles en contra', 'Diferencia de goles' );
 
     var body = []
 
     body.push(titulos)
 
     for (let i = 0; i < equipos.length ; i++) {
-        var datosEquipos = new Array(equipos[i].nombre,equipos[i].puntos, equipos[i].partidosJugados, equipos[i].golesFavor, equipos[i].golesContra, equipos[i].diferenciaGoles)
+        var datosEquipos = new Array((i+1),equipos[i].nombre,equipos[i].puntos, equipos[i].partidosJugados, equipos[i].golesFavor, equipos[i].golesContra, equipos[i].diferenciaGoles)
         body.push(datosEquipos)
     }
 
@@ -271,13 +271,13 @@ function generarPdf(nombreLiga, equipos) {
         margin: [0, 0, 0, 10]
     })
 
+
     content.push({
-      layout: 'lightHorizontalLines', // optional
-    table: {
-      // headers are automatically repeated if the table spans over multiple pages
-      // you can declare how many rows should be treated as headers
+      layout:'lightHorizontalLines', // optional
+    table: {		
+        heights:60,
       headerRows: 1,
-      widths: [ 'auto', 'auto', 'auto', 'auto', 'auto', '*' ],
+      widths: ['*','*', '*', '*', '*', '*', '*' ],
 
       body: body
 
