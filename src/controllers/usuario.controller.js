@@ -101,7 +101,9 @@ function RegistrarUsuario(req, res) {
 
 function RegistrarAdmin(req, res) {
 
-  if(req.user.rol !="Administrador")
+  console.log(req.user.rol)
+
+  if(req.user.rol !="Admin")
   return res.status(500).send({ mensaje: "no tiene autorización para ejecutar esta acción"})
 
 
