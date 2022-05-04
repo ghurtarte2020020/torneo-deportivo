@@ -52,10 +52,13 @@ function crearPartido(req, res) {
                 var jornadasMaximas;
                 var partidosMaximos;
 
-                if ((equiposEncontrados.length % 2) == 0) {
+                console.log(equiposEncontrados.length)
+
+                if (equiposEncontrados.length % 2 == 0) {
                     jornadasMaximas = (equiposEncontrados.length - 1)
                     partidosMaximos = (equiposEncontrados.length / 2)
                 } else {
+      
                     jornadasMaximas = equiposEncontrados.length
                     partidosMaximos = ((equiposEncontrados.length - 1) / 2)
                 }
